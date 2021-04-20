@@ -4,16 +4,17 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 
+import com.zaxxer.hikari.HikariDataSource;
+
 public class ConnectDB {
 	
 	// check user e password
-	static private final String jdbcUrl = "jdbc:mysql://localhost/meteo?user=root&password=root";
-	
+	static private final String jdbcUrl = "jdbc:mysql://localhost/meteo?user=root&password=alessio";
 
 	public static Connection getConnection() {
-
+		
 		try {
-				Connection connection = DriverManager.getConnection(jdbcUrl);
+				Connection connection = DriverManager.getConnection(jdbcUrl);;
 				return connection;
 
 		} catch (SQLException e) {

@@ -35,17 +35,21 @@ public class Citta {
 	public void setRilevamenti(List<Rilevamento> rilevamenti) {
 		this.rilevamenti = rilevamenti;
 	}
-
-	public int getCounter() {
-		return counter;
-	}
-
+	
 	public void setCounter(int counter) {
 		this.counter = counter;
 	}
 	
+	public int getCounter() {
+		return counter;
+	}
+
 	public void increaseCounter() {
-		this.counter += 1;
+		this.counter++;
+	}
+	
+	public void decreaseCounter() {
+		this.counter--;
 	}
 
 	@Override
@@ -77,6 +81,10 @@ public class Citta {
 	public String toString() {
 		return nome;
 	}
+
+	
+
+	
 	
 
 }
