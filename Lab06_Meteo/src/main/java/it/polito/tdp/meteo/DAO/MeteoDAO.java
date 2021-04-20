@@ -49,7 +49,7 @@ public class MeteoDAO {
 				   " FROM situazione "+
 				   " WHERE MONTH(data)=? AND Localita=? ";
 		
-		List<Rilevamento> rilevamenti = new ArrayList<Rilevamento>();
+		List<Rilevamento> rilevamenti = new LinkedList<Rilevamento>();
 		try {
 			Connection conn = ConnectDB.getConnection();
 			PreparedStatement st = conn.prepareStatement(sql);

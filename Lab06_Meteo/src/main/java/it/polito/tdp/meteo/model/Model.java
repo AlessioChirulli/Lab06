@@ -46,7 +46,7 @@ public class Model {
 		Map<Citta,Integer>giorniCitta=new HashMap<Citta,Integer>();
 		int tot=0;
 		for(Citta c: citta) {
-			 rilevamenti.put(c,new ArrayList<Rilevamento>(this.meteo.getAllRilevamentiLocalitaMese(mese, c.getNome())));	
+			 rilevamenti.put(c,new LinkedList<Rilevamento>(this.meteo.getAllRilevamentiLocalitaMese(mese, c.getNome())));	
 			 giorniCitta.put(c,0);
 		}
 		calcolaSequenza(sequenza,tot,rilevamenti,citta,giorniCitta);
@@ -63,13 +63,19 @@ public class Model {
 	private void calcolaSequenza(List<Citta> sequenza, int tot,Map<Citta,List<Rilevamento>> rilevamenti,List<Citta>citta,Map<Citta,Integer>giorniCitta) {
 		// TODO Auto-generated method stub
 		
-
+		//CONTROLLO GIORNI TOTALI
 		if(sequenza.size() == NUMERO_GIORNI_TOTALI){
+			for(Citta c:giorniCitta.keySet()) {
+				if(giorniCitta.get(c)>NUMERO_GIORNI_CITTA_MAX)
+					return ;
+			}
+			
 			//CONTROLLO ALMENO UN GIORNO IN CITTA'
 			for(Citta c:giorniCitta.keySet()) {
 				if(giorniCitta.get(c)==0)
 					return ;
 			}
+			
 			//CONTROLLO GIORNI CONSECUTIVI
 			for(int i=0;i<sequenza.size();i++) {
 				if((i==sequenza.size()-1) && !(sequenza.get(i).equals(sequenza.get(i-1))) && !(sequenza.get(i).equals(sequenza.get(i-2)))) {
@@ -114,13 +120,14 @@ public class Model {
 		for(Citta c: citta) {
 				sequenza.add(c);
 				giorniCitta.put(c,giorniCitta.get(c)+1);
-				tot+=rilevamenti.get(c).get(sequenza.size()).getUmidita();
+				tot+=rilevamenti.get(c).get(sequenza.size()-1).getUmidita();
 				if(sequenza.size()>=2) {
 				if(!(sequenza.get(sequenza.size()-1).equals(sequenza.get(sequenza.size()-2)))){
 				tot+=COST;
 				}
 				}
 				calcolaSequenza(sequenza,tot,rilevamenti,citta,giorniCitta);
+				
 				//BACKTRACKING
 				
 				if(sequenza.size()!=0) {
@@ -129,9 +136,10 @@ public class Model {
 						tot-=COST;
 						}
 					}
+				tot-=rilevamenti.get(c).get(sequenza.size()-1).getUmidita();
 				sequenza.remove(sequenza.size()-1);
 				giorniCitta.put(c,giorniCitta.get(c)-1);
-				tot-=rilevamenti.get(c).get(sequenza.size()).getUmidita();
+				
 				
 				}
 		}
