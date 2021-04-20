@@ -116,21 +116,23 @@ public class Model {
 				giorniCitta.put(c,giorniCitta.get(c)+1);
 				tot+=rilevamenti.get(c).get(sequenza.size()).getUmidita();
 				if(sequenza.size()>=2) {
-				if((sequenza.get(sequenza.size()-1).equals(sequenza.get(sequenza.size()-2)))){
+				if(!(sequenza.get(sequenza.size()-1).equals(sequenza.get(sequenza.size()-2)))){
 				tot+=COST;
 				}
 				}
 				calcolaSequenza(sequenza,tot,rilevamenti,citta,giorniCitta);
 				//BACKTRACKING
+				
 				if(sequenza.size()!=0) {
+				if(sequenza.size()>=2) {
+					if(!(sequenza.get(sequenza.size()-1).equals(sequenza.get(sequenza.size()-2)))){
+						tot-=COST;
+						}
+					}
 				sequenza.remove(sequenza.size()-1);
 				giorniCitta.put(c,giorniCitta.get(c)-1);
 				tot-=rilevamenti.get(c).get(sequenza.size()).getUmidita();
-				if(sequenza.size()>=2) {
-				if((sequenza.get(sequenza.size()-1).equals(sequenza.get(sequenza.size()-2)))){
-				tot-=COST;
-				}
-				}
+				
 				}
 		}
 			
